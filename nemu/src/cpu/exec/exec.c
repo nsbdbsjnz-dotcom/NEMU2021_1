@@ -161,10 +161,10 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x64 */  inv, inv, inv, inv,
 /* 0x68 */  inv, inv, inv, inv, 
 /* 0x6c */  inv, inv, inv, inv, 
-/* 0x70 */  jz_si_b, jnz_si_b, jb_si_b, jae_si_b,
+/* 0x70 */  jo_si_b, jno_si_b, jb_si_b, jae_si_b,
 /* 0x74 */  jz_si_b, jnz_si_b, jbe_si_b, ja_si_b,
-/* 0x78 */  inv, inv, inv, inv, 
-/* 0x7c */  inv, inv, jl_si_b, jge_si_b, 
+/* 0x78 */  js_si_b, jns_si_b, jp_si_b, jnp_si_b, 
+/* 0x7c */  jl_si_b, jge_si_b, jle_si_b, jg_si_b, 
 /* 0x80 */  inv, inv, inv, inv,
 /* 0x84 */  inv, inv, inv, inv,
 /* 0x88 */  inv, inv, inv, inv, 
@@ -268,12 +268,3 @@ make_helper(jbe_si_v);
 
 #endif
 
-// 在opcode_table中添加条件跳转指令的注册
-// 条件跳转指令的opcode范围是0x70-0x7f
-
-
-// 修改opcode_table中的条件跳转指令部分
-/* 0x70 */  jz_si_b, jnz_si_b, jb_si_b, jnb_si_b,
-/* 0x74 */  je_si_b, jne_si_b, jbe_si_b, ja_si_b,
-/* 0x78 */  js_si_b, jns_si_b, jp_si_b, jnp_si_b,
-/* 0x7c */  jo_si_b, jno_si_b, jl_si_b, jnl_si_b,

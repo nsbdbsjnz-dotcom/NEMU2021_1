@@ -21,7 +21,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	return DATA_BYTE;
 }
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
+#if DATA_BYTE == 1 || DATA_BYTE == 2 || DATA_BYTE == 4
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
     op_src->type = OP_TYPE_IMM;
@@ -187,7 +187,7 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
     }
     else if(op->type == OP_TYPE_MEM) { 
         /* --- PA3 修改：补全 swaddr_write 的第 4 个参数，默认使用 DS 段 --- */
-        swaddr_write(op->addr, op->size, src, R_DS); 
+        swaddr_write(op->addr, op->size, src); 
     }
     else { 
         assert(0); 

@@ -1,0 +1,12 @@
+Welcome to NEMU!
+The executable is obj/testcase/switch.
+For help, type "help"
+(nemu) c
+nemu: nemu/src/cpu/exec/special/special.c:24: inv: Assertion `0' failed.
+
+
+===== the original log.txt =====
+
+  100000:   bd 00 00 00 00                        movl $0x0,%ebp
+  100005:   bc 00 00 00 08                        movl $0x8000000,%esp
+  10000a:   e9 51 07 00 00                        jmp 100760

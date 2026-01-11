@@ -24,23 +24,24 @@ make_helper(concat(decode_i_, SUFFIX)) {
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
-	op_src->type = OP_TYPE_IMM;
-
-	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
-	 * by `eip'. Interpret the result as an signed immediate, and assign
-	 * it to op_src->simm.
-	 *
-	op_src->simm = ???
-	 */
-	//panic("please implement me");
-        op_src->simm = (DATA_TYPE_S)instr_fetch(eip, DATA_BYTE);
-
-	op_src->val = op_src->simm;
+    op_src->type = OP_TYPE_IMM;
+    
+    /* 读取DATA_BYTE字节的内存，并将其解释为有符号立即数 */
+    uint32_t imm = instr_fetch(eip, DATA_BYTE);
+    if (DATA_BYTE == 1) {
+        op_src->simm = (int8_t)imm;
+    } else if (DATA_BYTE == 2) {
+        op_src->simm = (int16_t)imm;
+    } else {
+        op_src->simm = (int32_t)imm;
+    }
+    
+    op_src->val = op_src->simm;
 
 #ifdef DEBUG
-	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
+    snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
 #endif
-	return DATA_BYTE;
+    return DATA_BYTE;
 }
 #endif
 
@@ -181,9 +182,16 @@ make_helper(concat(decode_rm_imm_, SUFFIX)) {
 }
 
 void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
-	if(op->type == OP_TYPE_REG) { REG(op->reg) = src; }
-	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src); }
-	else { assert(0); }
+    if(op->type == OP_TYPE_REG) { 
+        REG(op->reg) = src; 
+    }
+    else if(op->type == OP_TYPE_MEM) { 
+        /* --- PA3 修改：补全 swaddr_write 的第 4 个参数，默认使用 DS 段 --- */
+        swaddr_write(op->addr, op->size, src, R_DS); 
+    }
+    else { 
+        assert(0); 
+    }
 }
 
 #include "cpu/exec/template-end.h"

@@ -4,6 +4,7 @@
 #include "common.h"
 
 void update_eflags_pf_zf_sf(uint32_t);
+void update_eflags(uint32_t result, uint32_t src, uint32_t dest, bool is_add);
 
 
 static inline bool check_cc_b() {

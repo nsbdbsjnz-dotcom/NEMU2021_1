@@ -1,0 +1,9 @@
+*.o
+*.d
+*.a
+*.log
+*.txt
+build/
+obj/
+nemu/nemu
+

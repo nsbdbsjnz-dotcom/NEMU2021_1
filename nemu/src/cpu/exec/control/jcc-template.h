@@ -1,64 +1,124 @@
 #include "cpu/exec/template-start.h"
 
-#define instr jcc
+// 定义一个宏来统一处理跳转逻辑
+// cond 是跳转条件，例如 cpu.eflags.ZF == 1
+#define make_jcc_helper(cond) \
+    if (cond) { \
+        /* op_src->val 是指令中解码出的立即数偏移量 (已经符号扩展) */ \
+        /* 这里直接加到 eip 上，配合主循环的 eip += len，最终结果就是 eip + len + offset */ \
+        cpu.eip += op_src->val; \
+        \
+        /* 如果是 16 位模式，需要对 EIP 进行截断处理 */ \
+        if (DATA_BYTE == 2) { \
+            cpu.eip &= 0x0000FFFF; \
+        } \
+    } \
+    print_asm_template2();
 
-static void do_execute() {
-    // 检查条件是否满足
-    bool condition = false;
-    
-    // 根据不同的指令设置不同的条件
-    #if defined(instr_jz) || defined(instr_je)
-        condition = cpu.eflags.ZF;
-    #elif defined(instr_jnz) || defined(instr_jne)
-        condition = !cpu.eflags.ZF;
-    #elif defined(instr_jg) || defined(instr_jnle)
-        condition = !cpu.eflags.ZF && (cpu.eflags.SF == cpu.eflags.OF);
-    #elif defined(instr_jl) || defined(instr_jnge)
-        condition = (cpu.eflags.SF != cpu.eflags.OF);
-    #elif defined(instr_jge) || defined(instr_jnl)
-        condition = (cpu.eflags.SF == cpu.eflags.OF);
-    #elif defined(instr_jle) || defined(instr_jng)
-        condition = cpu.eflags.ZF || (cpu.eflags.SF != cpu.eflags.OF);
-    #elif defined(instr_ja) || defined(instr_jnbe)
-        condition = !cpu.eflags.CF && !cpu.eflags.ZF;
-    #elif defined(instr_jb) || defined(instr_jnae) || defined(instr_jc)
-        condition = cpu.eflags.CF;
-    #elif defined(instr_jae) || defined(instr_jnb) || defined(instr_jnc)
-        condition = !cpu.eflags.CF;
-    #elif defined(instr_jbe) || defined(instr_jna)
-        condition = cpu.eflags.CF || cpu.eflags.ZF;
-    #endif
-    
-    // 如果条件满足，则跳转到目标地址
-    if (condition) {
-        cpu.eip += op_src->val;
-    }
-    
-    print_asm(str(instr) " %x", cpu.eip + 1 + DATA_BYTE);
-}
+/* --- 以下是各种条件跳转指令的定义 --- */
 
+// 1. JE / JZ: 结果为0 (Equal / Zero)
+#define instr je
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 1); }
 make_instr_helper(si)
+#undef instr
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
-/* sign immediate */
-make_helper(concat(decode_si_, SUFFIX)) {
-    op_src->type = OP_TYPE_IMM;
-    
-    /* 读取DATA_BYTE字节的内存，并将其解释为有符号立即数 */
-    uint32_t imm = instr_fetch(eip, DATA_BYTE);
-    if (DATA_BYTE == 1) {
-        op_src->simm = (int8_t)imm;
-    } else {
-        op_src->simm = (int32_t)imm;
-    }
-    
-    op_src->val = op_src->simm;
+#define instr jz
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 1); }
+make_instr_helper(si)
+#undef instr
 
-#ifdef DEBUG
-    snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
-#endif
-    return DATA_BYTE;
-}
-#endif
+// 2. JNE / JNZ: 结果不为0 (Not Equal / Not Zero)
+#define instr jne
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 0); }
+make_instr_helper(si)
+#undef instr
 
+#define instr jnz
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 0); }
+make_instr_helper(si)
+#undef instr
+
+// 3. JS: 结果为负 (Sign)
+#define instr js
+static void do_execute() { make_jcc_helper(cpu.eflags.SF == 1); }
+make_instr_helper(si)
+#undef instr
+
+// 4. JNS: 结果非负 (No Sign)
+#define instr jns
+static void do_execute() { make_jcc_helper(cpu.eflags.SF == 0); }
+make_instr_helper(si)
+#undef instr
+
+// 5. JG: 有符号 > (Greater) -> ZF=0 且 SF=OF
+#define instr jg
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 0 && cpu.eflags.SF == cpu.eflags.OF); }
+make_instr_helper(si)
+#undef instr
+
+// 6. JGE: 有符号 >= (Greater or Equal) -> SF=OF
+#define instr jge
+static void do_execute() { make_jcc_helper(cpu.eflags.SF == cpu.eflags.OF); }
+make_instr_helper(si)
+#undef instr
+
+// 7. JL: 有符号 < (Less) -> SF != OF
+#define instr jl
+static void do_execute() { make_jcc_helper(cpu.eflags.SF != cpu.eflags.OF); }
+make_instr_helper(si)
+#undef instr
+
+// 8. JLE: 有符号 <= (Less or Equal) -> ZF=1 或 SF!=OF
+#define instr jle
+static void do_execute() { make_jcc_helper(cpu.eflags.ZF == 1 || cpu.eflags.SF != cpu.eflags.OF); }
+make_instr_helper(si)
+#undef instr
+
+// 9. JA: 无符号 > (Above) -> CF=0 且 ZF=0
+#define instr ja
+static void do_execute() { make_jcc_helper(cpu.eflags.CF == 0 && cpu.eflags.ZF == 0); }
+make_instr_helper(si)
+#undef instr
+
+// 10. JAE: 无符号 >= (Above or Equal) -> CF=0
+#define instr jae
+static void do_execute() { make_jcc_helper(cpu.eflags.CF == 0); }
+make_instr_helper(si)
+#undef instr
+
+// 11. JB: 无符号 < (Below) -> CF=1
+#define instr jb
+static void do_execute() { make_jcc_helper(cpu.eflags.CF == 1); }
+make_instr_helper(si)
+#undef instr
+
+// 12. JBE: 无符号 <= (Below or Equal) -> CF=1 或 ZF=1
+#define instr jbe
+static void do_execute() { make_jcc_helper(cpu.eflags.CF == 1 || cpu.eflags.ZF == 1); }
+make_instr_helper(si)
+#undef instr
+// 13. JP / JPE: 奇偶位为1 (Parity / Parity Even)
+#define instr jp
+static void do_execute() { make_jcc_helper(cpu.eflags.PF == 1); }
+make_instr_helper(si)
+#undef instr
+
+// 14. JNP / JPO: 奇偶位为0 (No Parity / Parity Odd)
+#define instr jnp
+static void do_execute() { make_jcc_helper(cpu.eflags.PF == 0); }
+make_instr_helper(si)
+#undef instr
+
+// 15. JO: 溢出 (Overflow)
+#define instr jo
+static void do_execute() { make_jcc_helper(cpu.eflags.OF == 1); }
+make_instr_helper(si)
+#undef instr
+
+// 16. JNO: 未溢出 (No Overflow)
+#define instr jno
+static void do_execute() { make_jcc_helper(cpu.eflags.OF == 0); }
+make_instr_helper(si)
+#undef instr
 #include "cpu/exec/template-end.h"

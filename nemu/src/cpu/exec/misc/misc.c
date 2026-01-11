@@ -23,3 +23,20 @@ make_helper(lea) {
 	print_asm("leal %s,%%%s", op_src->str, regsl[m.reg]);
 	return 1 + len;
 }
+/* Temporary stubs for PA3 instructions to fix compilation errors */
+make_helper(lgdt) {
+    // 暂时没实现，PA3再写
+    return 0; 
+}
+
+make_helper(mov_cr2rm) {
+    return 0;
+}
+
+make_helper(mov_rm2cr) {
+    return 0;
+}
+
+make_helper(mov_rm2sreg) {
+    return 0;
+}

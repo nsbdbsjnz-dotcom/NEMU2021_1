@@ -1,0 +1,75 @@
+
+obj/testcase/to-lower-case:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00801000 <_start>:
+  801000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  801005:	bc f0 ff ff 07       	mov    $0x7fffff0,%esp
+  80100a:	e8 3b 00 00 00       	call   80104a <main>
+  80100f:	b8 00 00 00 00       	mov    $0x0,%eax
+  801014:	d6                   	(bad)  
+
+00801015 <to_lower_case>:
+  801015:	f3 0f 1e fb          	endbr32 
+  801019:	55                   	push   %ebp
+  80101a:	89 e5                	mov    %esp,%ebp
+  80101c:	83 ec 04             	sub    $0x4,%esp
+  80101f:	e8 8f 00 00 00       	call   8010b3 <__x86.get_pc_thunk.ax>
+  801024:	05 dc 2f 00 00       	add    $0x2fdc,%eax
+  801029:	8b 45 08             	mov    0x8(%ebp),%eax
+  80102c:	88 45 fc             	mov    %al,-0x4(%ebp)
+  80102f:	80 7d fc 40          	cmpb   $0x40,-0x4(%ebp)
+  801033:	7e 0f                	jle    801044 <to_lower_case+0x2f>
+  801035:	80 7d fc 5a          	cmpb   $0x5a,-0x4(%ebp)
+  801039:	7f 09                	jg     801044 <to_lower_case+0x2f>
+  80103b:	0f b6 45 fc          	movzbl -0x4(%ebp),%eax
+  80103f:	83 c0 20             	add    $0x20,%eax
+  801042:	eb 04                	jmp    801048 <to_lower_case+0x33>
+  801044:	0f b6 45 fc          	movzbl -0x4(%ebp),%eax
+  801048:	c9                   	leave  
+  801049:	c3                   	ret    
+
+0080104a <main>:
+  80104a:	f3 0f 1e fb          	endbr32 
+  80104e:	55                   	push   %ebp
+  80104f:	89 e5                	mov    %esp,%ebp
+  801051:	53                   	push   %ebx
+  801052:	83 ec 10             	sub    $0x10,%esp
+  801055:	e8 5d 00 00 00       	call   8010b7 <__x86.get_pc_thunk.bx>
+  80105a:	81 c3 a6 2f 00 00    	add    $0x2fa6,%ebx
+  801060:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%ebp)
+  801067:	eb 2b                	jmp    801094 <main+0x4a>
+  801069:	8b 45 f8             	mov    -0x8(%ebp),%eax
+  80106c:	0f be c0             	movsbl %al,%eax
+  80106f:	50                   	push   %eax
+  801070:	e8 a0 ff ff ff       	call   801015 <to_lower_case>
+  801075:	83 c4 04             	add    $0x4,%esp
+  801078:	8d 8b 20 00 00 00    	lea    0x20(%ebx),%ecx
+  80107e:	8b 55 f8             	mov    -0x8(%ebp),%edx
+  801081:	01 ca                	add    %ecx,%edx
+  801083:	0f b6 12             	movzbl (%edx),%edx
+  801086:	38 d0                	cmp    %dl,%al
+  801088:	74 06                	je     801090 <main+0x46>
+  80108a:	b8 01 00 00 00       	mov    $0x1,%eax
+  80108f:	d6                   	(bad)  
+  801090:	83 45 f8 01          	addl   $0x1,-0x8(%ebp)
+  801094:	83 7d f8 7f          	cmpl   $0x7f,-0x8(%ebp)
+  801098:	7e cf                	jle    801069 <main+0x1f>
+  80109a:	81 7d f8 80 00 00 00 	cmpl   $0x80,-0x8(%ebp)
+  8010a1:	74 06                	je     8010a9 <main+0x5f>
+  8010a3:	b8 01 00 00 00       	mov    $0x1,%eax
+  8010a8:	d6                   	(bad)  
+  8010a9:	b8 00 00 00 00       	mov    $0x0,%eax
+  8010ae:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+  8010b1:	c9                   	leave  
+  8010b2:	c3                   	ret    
+
+008010b3 <__x86.get_pc_thunk.ax>:
+  8010b3:	8b 04 24             	mov    (%esp),%eax
+  8010b6:	c3                   	ret    
+
+008010b7 <__x86.get_pc_thunk.bx>:
+  8010b7:	8b 1c 24             	mov    (%esp),%ebx
+  8010ba:	c3                   	ret    

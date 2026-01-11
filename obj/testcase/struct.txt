@@ -1,0 +1,115 @@
+
+obj/testcase/struct:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00801000 <_start>:
+  801000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  801005:	bc f0 ff ff 07       	mov    $0x7fffff0,%esp
+  80100a:	e8 39 00 00 00       	call   801048 <main>
+  80100f:	b8 00 00 00 00       	mov    $0x0,%eax
+  801014:	d6                   	(bad)  
+
+00801015 <fun>:
+  801015:	f3 0f 1e fb          	endbr32 
+  801019:	55                   	push   %ebp
+  80101a:	89 e5                	mov    %esp,%ebp
+  80101c:	57                   	push   %edi
+  80101d:	56                   	push   %esi
+  80101e:	53                   	push   %ebx
+  80101f:	e8 17 01 00 00       	call   80113b <__x86.get_pc_thunk.ax>
+  801024:	05 dc 2f 00 00       	add    $0x2fdc,%eax
+  801029:	8b 45 08             	mov    0x8(%ebp),%eax
+  80102c:	89 c3                	mov    %eax,%ebx
+  80102e:	8d 45 0c             	lea    0xc(%ebp),%eax
+  801031:	ba 7d 00 00 00       	mov    $0x7d,%edx
+  801036:	89 df                	mov    %ebx,%edi
+  801038:	89 c6                	mov    %eax,%esi
+  80103a:	89 d1                	mov    %edx,%ecx
+  80103c:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+  80103e:	8b 45 08             	mov    0x8(%ebp),%eax
+  801041:	5b                   	pop    %ebx
+  801042:	5e                   	pop    %esi
+  801043:	5f                   	pop    %edi
+  801044:	5d                   	pop    %ebp
+  801045:	c2 04 00             	ret    $0x4
+
+00801048 <main>:
+  801048:	f3 0f 1e fb          	endbr32 
+  80104c:	55                   	push   %ebp
+  80104d:	89 e5                	mov    %esp,%ebp
+  80104f:	57                   	push   %edi
+  801050:	56                   	push   %esi
+  801051:	53                   	push   %ebx
+  801052:	81 ec 04 02 00 00    	sub    $0x204,%esp
+  801058:	e8 de 00 00 00       	call   80113b <__x86.get_pc_thunk.ax>
+  80105d:	05 a3 2f 00 00       	add    $0x2fa3,%eax
+  801062:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+  801069:	eb 31                	jmp    80109c <main+0x54>
+  80106b:	8b 55 f0             	mov    -0x10(%ebp),%edx
+  80106e:	8d 9a 80 00 00 00    	lea    0x80(%edx),%ebx
+  801074:	c7 c2 20 40 80 00    	mov    $0x804020,%edx
+  80107a:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  80107d:	89 1c 8a             	mov    %ebx,(%edx,%ecx,4)
+  801080:	8b 55 f0             	mov    -0x10(%ebp),%edx
+  801083:	89 d3                	mov    %edx,%ebx
+  801085:	c7 c1 20 40 80 00    	mov    $0x804020,%ecx
+  80108b:	8b 55 f0             	mov    -0x10(%ebp),%edx
+  80108e:	01 ca                	add    %ecx,%edx
+  801090:	81 c2 90 01 00 00    	add    $0x190,%edx
+  801096:	88 1a                	mov    %bl,(%edx)
+  801098:	83 45 f0 01          	addl   $0x1,-0x10(%ebp)
+  80109c:	83 7d f0 63          	cmpl   $0x63,-0x10(%ebp)
+  8010a0:	7e c9                	jle    80106b <main+0x23>
+  8010a2:	8d b5 fc fd ff ff    	lea    -0x204(%ebp),%esi
+  8010a8:	89 b5 f0 fd ff ff    	mov    %esi,-0x210(%ebp)
+  8010ae:	c7 c0 20 40 80 00    	mov    $0x804020,%eax
+  8010b4:	81 ec f4 01 00 00    	sub    $0x1f4,%esp
+  8010ba:	89 e2                	mov    %esp,%edx
+  8010bc:	89 c3                	mov    %eax,%ebx
+  8010be:	b8 7d 00 00 00       	mov    $0x7d,%eax
+  8010c3:	89 d7                	mov    %edx,%edi
+  8010c5:	89 de                	mov    %ebx,%esi
+  8010c7:	89 c1                	mov    %eax,%ecx
+  8010c9:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+  8010cb:	ff b5 f0 fd ff ff    	pushl  -0x210(%ebp)
+  8010d1:	e8 3f ff ff ff       	call   801015 <fun>
+  8010d6:	81 c4 f4 01 00 00    	add    $0x1f4,%esp
+  8010dc:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+  8010e3:	eb 37                	jmp    80111c <main+0xd4>
+  8010e5:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  8010e8:	8b 84 85 fc fd ff ff 	mov    -0x204(%ebp,%eax,4),%eax
+  8010ef:	8b 55 f0             	mov    -0x10(%ebp),%edx
+  8010f2:	83 ea 80             	sub    $0xffffff80,%edx
+  8010f5:	39 d0                	cmp    %edx,%eax
+  8010f7:	74 06                	je     8010ff <main+0xb7>
+  8010f9:	b8 01 00 00 00       	mov    $0x1,%eax
+  8010fe:	d6                   	(bad)  
+  8010ff:	8d 55 8c             	lea    -0x74(%ebp),%edx
+  801102:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  801105:	01 d0                	add    %edx,%eax
+  801107:	0f b6 00             	movzbl (%eax),%eax
+  80110a:	0f be c0             	movsbl %al,%eax
+  80110d:	39 45 f0             	cmp    %eax,-0x10(%ebp)
+  801110:	74 06                	je     801118 <main+0xd0>
+  801112:	b8 01 00 00 00       	mov    $0x1,%eax
+  801117:	d6                   	(bad)  
+  801118:	83 45 f0 01          	addl   $0x1,-0x10(%ebp)
+  80111c:	83 7d f0 63          	cmpl   $0x63,-0x10(%ebp)
+  801120:	7e c3                	jle    8010e5 <main+0x9d>
+  801122:	83 7d f0 64          	cmpl   $0x64,-0x10(%ebp)
+  801126:	74 06                	je     80112e <main+0xe6>
+  801128:	b8 01 00 00 00       	mov    $0x1,%eax
+  80112d:	d6                   	(bad)  
+  80112e:	b8 00 00 00 00       	mov    $0x0,%eax
+  801133:	8d 65 f4             	lea    -0xc(%ebp),%esp
+  801136:	5b                   	pop    %ebx
+  801137:	5e                   	pop    %esi
+  801138:	5f                   	pop    %edi
+  801139:	5d                   	pop    %ebp
+  80113a:	c3                   	ret    
+
+0080113b <__x86.get_pc_thunk.ax>:
+  80113b:	8b 04 24             	mov    (%esp),%eax
+  80113e:	c3                   	ret    

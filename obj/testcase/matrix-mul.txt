@@ -1,0 +1,98 @@
+
+obj/testcase/matrix-mul:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00801000 <_start>:
+  801000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  801005:	bc f0 ff ff 07       	mov    $0x7fffff0,%esp
+  80100a:	e8 06 00 00 00       	call   801015 <main>
+  80100f:	b8 00 00 00 00       	mov    $0x0,%eax
+  801014:	d6                   	(bad)  
+
+00801015 <main>:
+  801015:	f3 0f 1e fb          	endbr32 
+  801019:	55                   	push   %ebp
+  80101a:	89 e5                	mov    %esp,%ebp
+  80101c:	56                   	push   %esi
+  80101d:	53                   	push   %ebx
+  80101e:	83 ec 10             	sub    $0x10,%esp
+  801021:	e8 0d 01 00 00       	call   801133 <__x86.get_pc_thunk.dx>
+  801026:	81 c2 da 2f 00 00    	add    $0x2fda,%edx
+  80102c:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+  801033:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+  80103a:	e9 cf 00 00 00       	jmp    80110e <main+0xf9>
+  80103f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+  801046:	e9 b5 00 00 00       	jmp    801100 <main+0xeb>
+  80104b:	c7 c0 e0 14 82 00    	mov    $0x8214e0,%eax
+  801051:	8b 4d f4             	mov    -0xc(%ebp),%ecx
+  801054:	6b d9 64             	imul   $0x64,%ecx,%ebx
+  801057:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  80105a:	01 d9                	add    %ebx,%ecx
+  80105c:	c7 04 88 00 00 00 00 	movl   $0x0,(%eax,%ecx,4)
+  801063:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+  80106a:	eb 5a                	jmp    8010c6 <main+0xb1>
+  80106c:	c7 c0 e0 14 82 00    	mov    $0x8214e0,%eax
+  801072:	8b 4d f4             	mov    -0xc(%ebp),%ecx
+  801075:	6b d9 64             	imul   $0x64,%ecx,%ebx
+  801078:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  80107b:	01 d9                	add    %ebx,%ecx
+  80107d:	8b 0c 88             	mov    (%eax,%ecx,4),%ecx
+  801080:	8b 45 f4             	mov    -0xc(%ebp),%eax
+  801083:	6b d8 64             	imul   $0x64,%eax,%ebx
+  801086:	8b 45 ec             	mov    -0x14(%ebp),%eax
+  801089:	01 d8                	add    %ebx,%eax
+  80108b:	8b 9c 82 20 00 00 00 	mov    0x20(%edx,%eax,4),%ebx
+  801092:	8b 45 ec             	mov    -0x14(%ebp),%eax
+  801095:	6b f0 64             	imul   $0x64,%eax,%esi
+  801098:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  80109b:	01 f0                	add    %esi,%eax
+  80109d:	8b 84 82 60 9c 00 00 	mov    0x9c60(%edx,%eax,4),%eax
+  8010a4:	0f af c3             	imul   %ebx,%eax
+  8010a7:	8d 1c 01             	lea    (%ecx,%eax,1),%ebx
+  8010aa:	c7 c0 e0 14 82 00    	mov    $0x8214e0,%eax
+  8010b0:	8b 4d f4             	mov    -0xc(%ebp),%ecx
+  8010b3:	6b f1 64             	imul   $0x64,%ecx,%esi
+  8010b6:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  8010b9:	01 f1                	add    %esi,%ecx
+  8010bb:	89 1c 88             	mov    %ebx,(%eax,%ecx,4)
+  8010be:	83 45 e8 01          	addl   $0x1,-0x18(%ebp)
+  8010c2:	83 45 ec 01          	addl   $0x1,-0x14(%ebp)
+  8010c6:	83 7d ec 63          	cmpl   $0x63,-0x14(%ebp)
+  8010ca:	7e a0                	jle    80106c <main+0x57>
+  8010cc:	c7 c0 e0 14 82 00    	mov    $0x8214e0,%eax
+  8010d2:	8b 4d f4             	mov    -0xc(%ebp),%ecx
+  8010d5:	6b d9 64             	imul   $0x64,%ecx,%ebx
+  8010d8:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  8010db:	01 d9                	add    %ebx,%ecx
+  8010dd:	8b 0c 88             	mov    (%eax,%ecx,4),%ecx
+  8010e0:	8b 45 f4             	mov    -0xc(%ebp),%eax
+  8010e3:	6b d8 64             	imul   $0x64,%eax,%ebx
+  8010e6:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  8010e9:	01 d8                	add    %ebx,%eax
+  8010eb:	8b 84 82 a0 38 01 00 	mov    0x138a0(%edx,%eax,4),%eax
+  8010f2:	39 c1                	cmp    %eax,%ecx
+  8010f4:	74 06                	je     8010fc <main+0xe7>
+  8010f6:	b8 01 00 00 00       	mov    $0x1,%eax
+  8010fb:	d6                   	(bad)  
+  8010fc:	83 45 f0 01          	addl   $0x1,-0x10(%ebp)
+  801100:	83 7d f0 63          	cmpl   $0x63,-0x10(%ebp)
+  801104:	0f 8e 41 ff ff ff    	jle    80104b <main+0x36>
+  80110a:	83 45 f4 01          	addl   $0x1,-0xc(%ebp)
+  80110e:	83 7d f4 63          	cmpl   $0x63,-0xc(%ebp)
+  801112:	0f 8e 27 ff ff ff    	jle    80103f <main+0x2a>
+  801118:	81 7d e8 40 42 0f 00 	cmpl   $0xf4240,-0x18(%ebp)
+  80111f:	74 06                	je     801127 <main+0x112>
+  801121:	b8 01 00 00 00       	mov    $0x1,%eax
+  801126:	d6                   	(bad)  
+  801127:	b8 00 00 00 00       	mov    $0x0,%eax
+  80112c:	83 c4 10             	add    $0x10,%esp
+  80112f:	5b                   	pop    %ebx
+  801130:	5e                   	pop    %esi
+  801131:	5d                   	pop    %ebp
+  801132:	c3                   	ret    
+
+00801133 <__x86.get_pc_thunk.dx>:
+  801133:	8b 14 24             	mov    (%esp),%edx
+  801136:	c3                   	ret    

@@ -1,0 +1,53 @@
+
+obj/testcase/fib:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00801000 <_start>:
+  801000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  801005:	bc f0 ff ff 07       	mov    $0x7fffff0,%esp
+  80100a:	e8 06 00 00 00       	call   801015 <main>
+  80100f:	b8 00 00 00 00       	mov    $0x0,%eax
+  801014:	d6                   	(bad)  
+
+00801015 <main>:
+  801015:	f3 0f 1e fb          	endbr32 
+  801019:	55                   	push   %ebp
+  80101a:	89 e5                	mov    %esp,%ebp
+  80101c:	83 ec 10             	sub    $0x10,%esp
+  80101f:	e8 70 00 00 00       	call   801094 <__x86.get_pc_thunk.dx>
+  801024:	81 c2 dc 2f 00 00    	add    $0x2fdc,%edx
+  80102a:	c7 45 fc 02 00 00 00 	movl   $0x2,-0x4(%ebp)
+  801031:	eb 48                	jmp    80107b <main+0x66>
+  801033:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  801036:	83 e8 01             	sub    $0x1,%eax
+  801039:	8b 8c 82 20 00 00 00 	mov    0x20(%edx,%eax,4),%ecx
+  801040:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  801043:	83 e8 02             	sub    $0x2,%eax
+  801046:	8b 84 82 20 00 00 00 	mov    0x20(%edx,%eax,4),%eax
+  80104d:	01 c1                	add    %eax,%ecx
+  80104f:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  801052:	89 8c 82 20 00 00 00 	mov    %ecx,0x20(%edx,%eax,4)
+  801059:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  80105c:	8b 8c 82 20 00 00 00 	mov    0x20(%edx,%eax,4),%ecx
+  801063:	8b 45 fc             	mov    -0x4(%ebp),%eax
+  801066:	8b 84 82 c0 00 00 00 	mov    0xc0(%edx,%eax,4),%eax
+  80106d:	39 c1                	cmp    %eax,%ecx
+  80106f:	74 06                	je     801077 <main+0x62>
+  801071:	b8 01 00 00 00       	mov    $0x1,%eax
+  801076:	d6                   	(bad)  
+  801077:	83 45 fc 01          	addl   $0x1,-0x4(%ebp)
+  80107b:	83 7d fc 27          	cmpl   $0x27,-0x4(%ebp)
+  80107f:	7e b2                	jle    801033 <main+0x1e>
+  801081:	83 7d fc 28          	cmpl   $0x28,-0x4(%ebp)
+  801085:	74 06                	je     80108d <main+0x78>
+  801087:	b8 01 00 00 00       	mov    $0x1,%eax
+  80108c:	d6                   	(bad)  
+  80108d:	b8 00 00 00 00       	mov    $0x0,%eax
+  801092:	c9                   	leave  
+  801093:	c3                   	ret    
+
+00801094 <__x86.get_pc_thunk.dx>:
+  801094:	8b 14 24             	mov    (%esp),%edx
+  801097:	c3                   	ret    
